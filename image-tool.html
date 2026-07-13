@@ -1,0 +1,1358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>图片工具箱</title>
+<style>:root{color-scheme:light dark;background:light-dark(rgb(255 255 255), rgb(24 24 24))}html,body{margin:0}body{box-sizing:border-box;padding:1rem;background:inherit}iframe{display:block;width:100%;max-width:736px;height:calc(100vh - 2rem);margin:0 auto;border:0}</style>
+</head>
+<body>
+<iframe sandbox="allow-scripts" referrerpolicy="no-referrer" title="图片工具箱" srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot;&gt;
+&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#x27;none&#x27;; script-src &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; &#x27;wasm-unsafe-eval&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src &#x27;unsafe-inline&#x27; blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src &#x27;none&#x27;; object-src &#x27;none&#x27;; base-uri &#x27;none&#x27;; form-action &#x27;none&#x27;&quot;&gt;
+&lt;title&gt;图片工具箱&lt;/title&gt;
+&lt;style&gt;:root {
+  color-scheme: light dark;
+  background-color: var(--background) !important;
+
+  /* Agent-facing contract; keep in sync with SKILL.md. */
+  --background: light-dark(rgb(255 255 255), rgb(24 24 24));
+  --foreground: light-dark(rgb(26 28 31), rgb(255 255 255));
+  --card: color-mix(in oklab, var(--foreground) 5%, transparent);
+  --card-foreground: var(--foreground);
+  --popover: light-dark(rgb(255 255 255), rgb(45 45 45));
+  --popover-foreground: var(--foreground);
+  --primary: light-dark(rgb(51 156 255), rgb(131 195 255));
+  --primary-foreground: light-dark(rgb(255 255 255), rgb(13 13 13));
+  --secondary: light-dark(rgb(255 255 255 / 96%), rgb(54 54 54 / 96%));
+  --secondary-foreground: var(--foreground);
+  --muted: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --muted-foreground: light-dark(
+    rgb(26 28 31 / 49.4%),
+    rgb(255 255 255 / 49.8%)
+  );
+  --accent: light-dark(rgb(229 242 255), rgb(13 39 63));
+  --accent-foreground: var(--primary);
+  --destructive: light-dark(rgb(226 85 7), rgb(255 133 73));
+  --border: light-dark(rgb(26 28 31 / 8%), rgb(255 255 255 / 8.2%));
+  --input: light-dark(
+    rgb(26 28 31 / 11.8%),
+    color-mix(in oklab, rgb(0 0 0) 10%, transparent)
+  );
+  --ring: light-dark(rgb(51 156 255), rgb(131 195 255 / 76%));
+  --font-size-base: 14px;
+  --viz-series-1: var(--primary);
+  --viz-series-2: light-dark(rgb(243 136 59), rgb(245 154 86));
+  --viz-series-3: light-dark(rgb(93 201 119), rgb(116 213 139));
+  --viz-series-4: light-dark(rgb(235 119 177), rgb(240 143 192));
+  --viz-series-5: light-dark(rgb(155 121 236), rgb(170 145 239));
+  --viz-series-6: light-dark(rgb(58 185 177), rgb(90 203 194));
+
+  /* Internal implementation variables; not part of the agent contract. */
+  --font-sans: -apple-system, system-ui, &quot;Segoe UI&quot;, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, &quot;SF Mono&quot;, Menlo, Consolas, &quot;Liberation Mono&quot;,
+    monospace;
+  --font-size-normal: max(11px, var(--font-size-base));
+  --font-size-tooltip: calc(var(--font-size-base) - 1px);
+  --font-size-small: max(11px, calc(var(--font-size-base) - 2px));
+  --font-size-h1: calc(var(--font-size-normal) * 1.7142857143);
+  --font-size-h2: calc(var(--font-size-normal) * 1.4285714286);
+  --font-size-h3: calc(var(--font-size-normal) * 1.2857142857);
+  --font-weight-normal: 430;
+  --font-weight-medium: 500;
+  --line-height-normal: calc(var(--font-size-normal) * 1.5);
+  --line-height-tooltip: calc(var(--font-size-tooltip) * 1.4285714286);
+  --line-height-small: calc(var(--font-size-small) + 4px);
+  --radius: 12.5px;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-2xl: calc(var(--radius) * 1.6);
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px -1px rgb(0 0 0 / 8%);
+  --checkmark-image: url(&quot;data:image/svg+xml,%3Csvg xmlns=&#x27;http://www.w3.org/2000/svg&#x27; viewBox=&#x27;0 0 17 17&#x27;%3E%3Cpath d=&#x27;M12.8961 3.64101C13.1297 3.41418 13.4984 3.37523 13.7779 3.56581C14.0571 3.75635 14.1554 4.11331 14.0299 4.41347L13.9615 4.53847L7.71151 13.7045C7.59411 13.8767 7.4063 13.9877 7.19881 14.0072C6.99136 14.0267 6.78564 13.9533 6.63826 13.806L2.88826 10.056L2.79842 9.9457C2.6192 9.67407 2.64927 9.30496 2.88826 9.06581C3.12738 8.82669 3.49647 8.79676 3.76815 8.97597L3.8785 9.06581L7.03084 12.2182L12.8053 3.74941L12.8961 3.64101Z&#x27;/%3E%3C/svg%3E&quot;);
+
+  /* Legacy aliases; not part of the current agent contract. */
+  --viz-bg: transparent;
+  --viz-panel: var(--card);
+  --viz-border: var(--border);
+  --viz-text: var(--foreground);
+  --viz-muted: var(--muted-foreground);
+  --viz-accent: var(--primary);
+  --viz-accent-text: var(--primary-foreground);
+  --viz-accent-bg: var(--accent);
+  --viz-font-size: var(--font-size-base);
+  --viz-warning: var(--destructive);
+  --color-background-primary: var(--background);
+  --color-text-primary: var(--foreground);
+  --color-border-secondary: var(--border);
+}
+
+:root[data-theme=&quot;light&quot;] {
+  color-scheme: light;
+}
+
+:root[data-theme=&quot;dark&quot;] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html &gt; body {
+  margin: 0;
+  padding: 5px;
+  color: var(--foreground);
+  background: transparent !important;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+}
+
+a {
+  color: color-mix(in srgb, var(--viz-accent) 80%, var(--viz-text) 20%);
+  cursor: pointer;
+  font-weight: var(--viz-font-weight-medium);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+  text-decoration-line: underline;
+  text-decoration-style: dashed;
+  text-decoration-thickness: 0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-block: 0;
+}
+
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.3;
+}
+
+b,
+strong,
+th {
+  font-weight: var(--font-weight-medium);
+}
+
+code:not(pre code) {
+  display: inline;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  word-break: break-word;
+}
+
+#widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0;
+  background: transparent !important;
+}
+
+.card {
+  min-width: 0;
+  padding: 12px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border-radius: var(--radius-2xl);
+  corner-shape: superellipse(1.5);
+  color: var(--card-foreground);
+  background: var(--card);
+}
+
+#widget &gt; :not(.card) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(
+    20rem,
+    var(--tooltip-available-width, calc(100vw - 10px)),
+    calc(100vw - 10px)
+  );
+  max-height: min(
+    var(--tooltip-available-height, calc(100vh - 10px)),
+    calc(100vh - 10px)
+  );
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--popover-foreground);
+  background: var(--popover);
+  box-shadow: none;
+  font-size: var(--font-size-tooltip);
+  line-height: var(--line-height-tooltip);
+  overflow-wrap: break-word;
+  white-space: normal;
+  pointer-events: none;
+  user-select: none;
+}
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(max(180px, 24%), 1fr));
+  gap: 10px;
+}
+
+.viz-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.viz-stat-value {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.25;
+}
+
+.viz-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.viz-badge {
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  color: var(--accent-foreground);
+  background: var(--accent);
+  font-weight: var(--font-weight-medium);
+}
+
+small,
+.text-small,
+.viz-badge {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.viz-controls &gt; .form-label {
+  display: grid;
+  min-width: min(100%, 260px);
+  flex: 1 1 280px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px 12px;
+  margin-bottom: 0;
+}
+
+.viz-controls &gt; .form-label &gt; :is(.form-control, .form-range, .form-select) {
+  grid-column: 1 / -1;
+}
+
+.btn,
+.form-check-input,
+.form-control,
+.form-range,
+.form-select {
+  font: inherit;
+}
+
+.btn {
+  appearance: button;
+  display: inline-flex;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0 8px;
+  -webkit-app-region: no-drag;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: var(--cursor-interaction, pointer);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.btn:is(.btn-block, .viz-tile) {
+  inline-size: 100%;
+}
+
+.btn.viz-tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+a.btn {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn-primary {
+  border-color: transparent;
+  color: var(--primary-foreground);
+  background: var(--foreground);
+  background-clip: padding-box;
+}
+
+.btn-primary .text-muted {
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
+}
+
+.btn-primary:not(:disabled):hover {
+  background: color-mix(in srgb, var(--foreground) 80%, transparent);
+  background-clip: padding-box;
+}
+
+.btn-ghost {
+  border-color: transparent;
+  color: var(--muted-foreground);
+  background: transparent;
+}
+
+.btn-ghost:not(:disabled):hover {
+  color: var(--foreground);
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+[data-lucide] {
+  stroke-width: 1.6;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--foreground);
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  padding: 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background: var(--secondary);
+}
+
+.form-control::placeholder {
+  color: var(--muted-foreground);
+}
+
+.form-control[type=&quot;file&quot;] {
+  padding: 0;
+  overflow: hidden;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control[type=&quot;file&quot;]::file-selector-button {
+  min-height: 26px;
+  margin-right: 8px;
+  padding: 0 8px;
+  border: 0;
+  border-right: 1px solid var(--input);
+  color: var(--secondary-foreground);
+  background: var(--secondary);
+  cursor: inherit;
+  font: inherit;
+}
+
+.form-control[type=&quot;file&quot;]:not(:disabled):hover::file-selector-button {
+  background: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-control-color[type=&quot;color&quot;] {
+  width: 40px;
+  height: 28px;
+  padding: 3px;
+  cursor: var(--cursor-interaction, pointer);
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.form-control-color[type=&quot;color&quot;]::-webkit-color-swatch {
+  border: 0;
+  border-radius: calc(var(--radius-lg) - 4px);
+  corner-shape: superellipse(1.5);
+}
+
+textarea.form-control {
+  height: auto;
+  min-height: 72px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.form-control:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-control:disabled,
+.form-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.form-select {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  margin: 0;
+  padding: 0 32px 0 8px;
+  outline: none;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-lg);
+  corner-shape: superellipse(1.5);
+  color: var(--foreground);
+  background-color: var(--secondary);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) 50%,
+    calc(100% - 10px) 50%;
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-select:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--foreground) 6%, var(--secondary));
+}
+
+.form-select:focus-visible {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-check {
+  display: flex;
+  min-height: 20px;
+  align-items: center;
+  gap: 6px;
+}
+
+.form-check-input {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin: 0;
+  border: 1px solid var(--input);
+  color: var(--primary-foreground);
+  background-color: transparent;
+  cursor: var(--cursor-interaction, default);
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    box-shadow 150ms;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;] {
+  border-color: var(--input);
+  border-radius: var(--radius-sm);
+  corner-shape: superellipse(1.5);
+  background-color: var(--secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input:not(:disabled):not(:checked):hover {
+  background-color: var(--card);
+}
+
+.form-check:not(.form-switch) .form-check-input[type=&quot;checkbox&quot;]:checked {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.form-check:not(.form-switch)
+  .form-check-input[type=&quot;checkbox&quot;]:checked::before {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-foreground);
+  content: &quot;&quot;;
+  mask: var(--checkmark-image) center / 12px 12px no-repeat;
+}
+
+.form-check-input[type=&quot;radio&quot;] {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--radius-full);
+}
+
+.form-check-input[type=&quot;radio&quot;]:checked {
+  border: 2px solid var(--primary);
+  background:
+    radial-gradient(circle, var(--primary-foreground) 0 2.5px, transparent 3px),
+    var(--primary);
+}
+
+.form-check:not(.form-switch) .form-check-input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.form-check:not(.form-switch) .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+}
+
+.form-switch .form-check-input:disabled,
+.form-switch .form-check-input:disabled + .form-check-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.form-check-label {
+  color: var(--foreground);
+  cursor: var(--cursor-interaction, default);
+}
+
+.form-switch .form-check-input {
+  position: relative;
+  width: 32px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  box-shadow: none;
+  transition: background-color 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid light-dark(var(--primary-foreground), var(--foreground));
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+  box-shadow: var(--shadow-sm);
+  content: &quot;&quot;;
+  transform: translate(2px, -50%);
+  transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.form-switch .form-check-input:checked {
+  background: var(--primary);
+}
+
+.form-switch .form-check-input:checked::before {
+  transform: translate(14px, -50%);
+}
+
+.form-switch .form-check-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--ring);
+}
+
+.form-range {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: 0;
+  accent-color: var(--primary);
+  background: linear-gradient(
+      color-mix(in srgb, var(--foreground) 7%, transparent),
+      color-mix(in srgb, var(--foreground) 7%, transparent)
+    )
+    center / 100% 2px no-repeat;
+}
+
+.form-range::-webkit-slider-runnable-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-webkit-slider-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range::-moz-range-track {
+  height: 28px;
+  background: transparent;
+}
+
+.form-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: light-dark(var(--primary-foreground), var(--foreground));
+}
+
+.form-range:focus-visible::-moz-range-thumb {
+  border-color: var(--ring);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+
+.form-range:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn:not(.btn-primary, .viz-tile):is(
+    [aria-pressed=&quot;true&quot;],
+    [aria-selected=&quot;true&quot;],
+    .is-selected
+  ) {
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
+.btn.viz-tile:is([aria-pressed=&quot;true&quot;], [aria-selected=&quot;true&quot;], .is-selected) {
+  border-color: var(--primary);
+  box-shadow: inset 0 0 0 1px var(--primary);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+#widget &gt; svg {
+  width: 100%;
+}
+
+.text-warning,
+.text-destructive {
+  color: var(--destructive);
+}
+
+html&gt;body{padding:0}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;image-tool-root&quot; style=&quot;--font-size-base:14px;font-size:var(--font-size-base);line-height:1.5;color:var(--foreground);background:transparent;font-family:system-ui,-apple-system,sans-serif&quot;&gt;
+&lt;style&gt;
+  #image-tool-root{--radius:8px;--space-sm:6px;--space-md:12px;--space-lg:20px}
+  #image-tool-root .upload-zone{border:2px dashed var(--border);border-radius:var(--radius);padding:48px var(--space-lg);text-align:center;cursor:pointer;transition:border-color .2s,background .2s;margin-bottom:var(--space-lg)}
+  #image-tool-root .upload-zone:hover,#image-tool-root .upload-zone.dragover{border-color:var(--primary);background:color-mix(in srgb,var(--primary) 6%,transparent)}
+  #image-tool-root .upload-zone.has-image{padding:var(--space-md);border-style:solid;border-color:var(--border)}
+  #image-tool-root .upload-icon{margin-bottom:var(--space-sm);color:var(--muted-foreground)}
+  #image-tool-root .upload-hint{color:var(--muted-foreground);font-size:13px;margin-top:4px}
+  #image-tool-root .preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);margin-bottom:var(--space-lg)}
+  #image-tool-root .preview-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+  #image-tool-root .preview-header{padding:var(--space-sm) var(--space-md);font-size:13px;font-weight:500;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+  #image-tool-root .preview-body{display:flex;align-items:center;justify-content:center;min-height:200px;background:color-mix(in srgb,var(--muted) 30%,transparent);position:relative}
+  #image-tool-root .preview-body img{max-width:100%;max-height:360px;object-fit:contain;display:block}
+  #image-tool-root .preview-placeholder{color:var(--muted-foreground);font-size:13px;text-align:center;padding:var(--space-lg)}
+  #image-tool-root .size-info{font-size:12px;color:var(--muted-foreground)}
+  #image-tool-root .controls-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md) var(--space-lg)}
+  @media(max-width:600px){#image-tool-root .preview-grid{grid-template-columns:1fr}#image-tool-root .controls-grid{grid-template-columns:1fr}}
+  #image-tool-root .control-group{display:flex;flex-direction:column;gap:4px}
+  #image-tool-root .control-group .form-label{font-size:13px;font-weight:500;margin:0;display:flex;align-items:center;gap:var(--space-sm);justify-content:space-between}
+  #image-tool-root .control-group .form-label .val{font-weight:400;color:var(--muted-foreground)}
+  #image-tool-root .watermark-section{margin-top:var(--space-sm);padding:var(--space-md);background:var(--card);border:1px solid var(--border);border-radius:var(--radius);display:none;grid-column:1/-1}
+  #image-tool-root .watermark-section.visible{display:block}
+  #image-tool-root .watermark-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--space-md)}
+  @media(max-width:600px){#image-tool-root .watermark-grid{grid-template-columns:1fr}}
+  #image-tool-root .badge-dims{font-size:11px;color:var(--muted-foreground)}
+  #image-tool-root .download-bar{margin-top:var(--space-lg);display:flex;gap:var(--space-md);align-items:center;flex-wrap:wrap}
+&lt;/style&gt;
+&lt;!-- Upload Zone --&gt;
+&lt;div class=&quot;upload-zone&quot; id=&quot;uploadZone&quot; role=&quot;button&quot; tabindex=&quot;0&quot; aria-label=&quot;拖拽或点击上传图片&quot;&gt;
+  &lt;div id=&quot;uploadPlaceholder&quot;&gt;
+    &lt;div class=&quot;upload-icon&quot;&gt;&lt;i data-lucide=&quot;image-plus&quot; style=&quot;width:40px;height:40px;stroke-width:1.5&quot;&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div style=&quot;font-weight:500;margin-bottom:4px&quot;&gt;拖拽图片到此处，或点击选择&lt;/div&gt;
+    &lt;div class=&quot;upload-hint&quot;&gt;支持 JPG、PNG、WebP、BMP 格式&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;uploadFileInfo&quot; style=&quot;display:none;display:flex;align-items:center;gap:var(--space-md)&quot;&gt;
+    &lt;i data-lucide=&quot;file-image&quot; style=&quot;width:20px;height:20px;flex-shrink:0&quot;&gt;&lt;/i&gt;
+    &lt;div style=&quot;flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap&quot;&gt;
+      &lt;div id=&quot;fileName&quot; style=&quot;font-weight:500;font-size:13px&quot;&gt;&lt;/div&gt;
+      &lt;div id=&quot;fileDims&quot; class=&quot;badge-dims&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn btn-ghost&quot; id=&quot;changeFileBtn&quot; data-tooltip=&quot;更换图片&quot;&gt;&lt;i data-lucide=&quot;refresh-cw&quot; style=&quot;width:14px;height:14px&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;input type=&quot;file&quot; id=&quot;fileInput&quot; accept=&quot;image/jpeg,image/png,image/webp,image/bmp&quot; style=&quot;display:none&quot;&gt;
+&lt;/div&gt;
+&lt;!-- Preview --&gt;
+&lt;div class=&quot;preview-grid&quot; id=&quot;previewGrid&quot; style=&quot;display:none&quot;&gt;
+  &lt;div class=&quot;preview-card&quot;&gt;
+    &lt;div class=&quot;preview-header&quot;&gt;
+      &lt;span&gt;原始&lt;/span&gt;
+      &lt;span class=&quot;size-info&quot; id=&quot;origSize&quot;&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;preview-body&quot; id=&quot;origPreviewBody&quot;&gt;
+      &lt;div class=&quot;preview-placeholder&quot;&gt;暂无图片&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;preview-card&quot;&gt;
+    &lt;div class=&quot;preview-header&quot;&gt;
+      &lt;span&gt;处理后&lt;/span&gt;
+      &lt;span class=&quot;size-info&quot; id=&quot;procSize&quot;&gt;&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;preview-body&quot; id=&quot;procPreviewBody&quot;&gt;
+      &lt;div class=&quot;preview-placeholder&quot;&gt;调整参数后自动更新&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Controls --&gt;
+&lt;div id=&quot;controlsArea&quot; style=&quot;display:none&quot;&gt;
+  &lt;div class=&quot;controls-grid&quot;&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;qualityRange&quot;&gt;压缩质量 &lt;span class=&quot;val&quot; id=&quot;qualityVal&quot;&gt;80%&lt;/span&gt;&lt;/label&gt;
+      &lt;input type=&quot;range&quot; class=&quot;form-range&quot; id=&quot;qualityRange&quot; min=&quot;1&quot; max=&quot;100&quot; value=&quot;80&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;label class=&quot;form-label&quot; for=&quot;formatSelect&quot;&gt;输出格式&lt;/label&gt;
+      &lt;select class=&quot;form-select&quot; id=&quot;formatSelect&quot;&gt;
+        &lt;option value=&quot;image/jpeg&quot;&gt;JPEG&lt;/option&gt;
+        &lt;option value=&quot;image/png&quot;&gt;PNG&lt;/option&gt;
+        &lt;option value=&quot;image/webp&quot; selected&gt;WebP&lt;/option&gt;
+        &lt;option value=&quot;image/bmp&quot;&gt;BMP&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;div class=&quot;form-check form-switch&quot; style=&quot;padding-top:8px&quot;&gt;
+        &lt;input class=&quot;form-check-input&quot; type=&quot;checkbox&quot; id=&quot;watermarkToggle&quot; role=&quot;switch&quot;&gt;
+        &lt;label class=&quot;form-check-label&quot; for=&quot;watermarkToggle&quot; style=&quot;font-weight:500&quot;&gt;水印&lt;/label&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;control-group&quot;&gt;
+      &lt;div class=&quot;form-check form-switch&quot; style=&quot;padding-top:8px&quot;&gt;
+        &lt;input class=&quot;form-check-input&quot; type=&quot;checkbox&quot; id=&quot;resizeToggle&quot; role=&quot;switch&quot;&gt;
+        &lt;label class=&quot;form-check-label&quot; for=&quot;resizeToggle&quot; style=&quot;font-weight:500&quot;&gt;缩放&lt;/label&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;watermark-section&quot; id=&quot;watermarkSection&quot;&gt;
+    &lt;div class=&quot;watermark-grid&quot;&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;label class=&quot;form-label&quot; for=&quot;watermarkText&quot;&gt;文字&lt;/label&gt;
+        &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;watermarkText&quot; value=&quot;水印示例&quot; placeholder=&quot;输入水印文字&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;label class=&quot;form-label&quot; for=&quot;watermarkPos&quot;&gt;位置&lt;/label&gt;
+        &lt;select class=&quot;form-select&quot; id=&quot;watermarkPos&quot;&gt;
+          &lt;option value=&quot;nw&quot;&gt;左上&lt;/option&gt;
+          &lt;option value=&quot;n&quot;&gt;中上&lt;/option&gt;
+          &lt;option value=&quot;ne&quot;&gt;右上&lt;/option&gt;
+          &lt;option value=&quot;w&quot;&gt;左中&lt;/option&gt;
+          &lt;option value=&quot;c&quot;&gt;居中&lt;/option&gt;
+          &lt;option value=&quot;e&quot;&gt;右中&lt;/option&gt;
+          &lt;option value=&quot;sw&quot; selected&gt;左下&lt;/option&gt;
+          &lt;option value=&quot;s&quot;&gt;中下&lt;/option&gt;
+          &lt;option value=&quot;se&quot;&gt;右下&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;label class=&quot;form-label&quot; for=&quot;watermarkSize&quot;&gt;字号 &lt;span class=&quot;val&quot; id=&quot;watermarkSizeVal&quot;&gt;32px&lt;/span&gt;&lt;/label&gt;
+        &lt;input type=&quot;range&quot; class=&quot;form-range&quot; id=&quot;watermarkSize&quot; min=&quot;12&quot; max=&quot;120&quot; value=&quot;32&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;label class=&quot;form-label&quot; for=&quot;watermarkOpacity&quot;&gt;透明度 &lt;span class=&quot;val&quot; id=&quot;watermarkOpacityVal&quot;&gt;50%&lt;/span&gt;&lt;/label&gt;
+        &lt;input type=&quot;range&quot; class=&quot;form-range&quot; id=&quot;watermarkOpacity&quot; min=&quot;5&quot; max=&quot;100&quot; value=&quot;50&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;label class=&quot;form-label&quot; for=&quot;watermarkColor&quot;&gt;颜色&lt;/label&gt;
+        &lt;input type=&quot;color&quot; class=&quot;form-control form-control-color&quot; id=&quot;watermarkColor&quot; value=&quot;#ffffff&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;label class=&quot;form-label&quot; for=&quot;watermarkPadding&quot;&gt;边距 &lt;span class=&quot;val&quot; id=&quot;watermarkPaddingVal&quot;&gt;16px&lt;/span&gt;&lt;/label&gt;
+        &lt;input type=&quot;range&quot; class=&quot;form-range&quot; id=&quot;watermarkPadding&quot; min=&quot;4&quot; max=&quot;80&quot; value=&quot;16&quot;&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;watermark-section&quot; id=&quot;resizeSection&quot;&gt;
+    &lt;div class=&quot;watermark-grid&quot;&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;label class=&quot;form-label&quot; for=&quot;resizeWidth&quot;&gt;宽度 (px) &lt;span class=&quot;val&quot; id=&quot;resizeWidthVal&quot;&gt;—&lt;/span&gt;&lt;/label&gt;
+        &lt;input type=&quot;number&quot; class=&quot;form-control&quot; id=&quot;resizeWidth&quot; min=&quot;1&quot; placeholder=&quot;自动&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;control-group&quot;&gt;
+        &lt;label class=&quot;form-label&quot; for=&quot;resizeHeight&quot;&gt;高度 (px) &lt;span class=&quot;val&quot; id=&quot;resizeHeightVal&quot;&gt;—&lt;/span&gt;&lt;/label&gt;
+        &lt;input type=&quot;number&quot; class=&quot;form-control&quot; id=&quot;resizeHeight&quot; min=&quot;1&quot; placeholder=&quot;自动&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;control-group&quot; style=&quot;justify-content:center&quot;&gt;
+        &lt;div class=&quot;form-check&quot;&gt;
+          &lt;input class=&quot;form-check-input&quot; type=&quot;checkbox&quot; id=&quot;resizeKeepRatio&quot; checked&gt;
+          &lt;label class=&quot;form-check-label&quot; for=&quot;resizeKeepRatio&quot;&gt;保持比例&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;download-bar&quot;&gt;
+    &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; id=&quot;downloadBtn&quot; disabled&gt;
+      &lt;i data-lucide=&quot;download&quot; style=&quot;width:14px;height:14px&quot;&gt;&lt;/i&gt; 下载处理后的图片
+    &lt;/button&gt;
+    &lt;span class=&quot;size-info&quot; id=&quot;savingsInfo&quot;&gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+(function(){
+  var root = document.getElementById(&#x27;image-tool-root&#x27;);
+  var $ = function(s){return root.querySelector(s)};
+  var $$ = function(s){return root.querySelectorAll(s)};
+  var uploadZone = $(&#x27;#uploadZone&#x27;);
+  var fileInput = $(&#x27;#fileInput&#x27;);
+  var uploadPlaceholder = $(&#x27;#uploadPlaceholder&#x27;);
+  var uploadFileInfo = $(&#x27;#uploadFileInfo&#x27;);
+  var fileName = $(&#x27;#fileName&#x27;);
+  var fileDims = $(&#x27;#fileDims&#x27;);
+  var changeFileBtn = $(&#x27;#changeFileBtn&#x27;);
+  var previewGrid = $(&#x27;#previewGrid&#x27;);
+  var origPreviewBody = $(&#x27;#origPreviewBody&#x27;);
+  var procPreviewBody = $(&#x27;#procPreviewBody&#x27;);
+  var origSize = $(&#x27;#origSize&#x27;);
+  var procSize = $(&#x27;#procSize&#x27;);
+  var controlsArea = $(&#x27;#controlsArea&#x27;);
+  var qualityRange = $(&#x27;#qualityRange&#x27;);
+  var qualityVal = $(&#x27;#qualityVal&#x27;);
+  var formatSelect = $(&#x27;#formatSelect&#x27;);
+  var watermarkToggle = $(&#x27;#watermarkToggle&#x27;);
+  var watermarkSection = $(&#x27;#watermarkSection&#x27;);
+  var watermarkText = $(&#x27;#watermarkText&#x27;);
+  var watermarkPos = $(&#x27;#watermarkPos&#x27;);
+  var watermarkSize = $(&#x27;#watermarkSize&#x27;);
+  var watermarkSizeVal = $(&#x27;#watermarkSizeVal&#x27;);
+  var watermarkOpacity = $(&#x27;#watermarkOpacity&#x27;);
+  var watermarkOpacityVal = $(&#x27;#watermarkOpacityVal&#x27;);
+  var watermarkColor = $(&#x27;#watermarkColor&#x27;);
+  var watermarkPadding = $(&#x27;#watermarkPadding&#x27;);
+  var watermarkPaddingVal = $(&#x27;#watermarkPaddingVal&#x27;);
+  var resizeToggle = $(&#x27;#resizeToggle&#x27;);
+  var resizeSection = $(&#x27;#resizeSection&#x27;);
+  var resizeWidth = $(&#x27;#resizeWidth&#x27;);
+  var resizeHeight = $(&#x27;#resizeHeight&#x27;);
+  var resizeWidthVal = $(&#x27;#resizeWidthVal&#x27;);
+  var resizeHeightVal = $(&#x27;#resizeHeightVal&#x27;);
+  var resizeKeepRatio = $(&#x27;#resizeKeepRatio&#x27;);
+  var downloadBtn = $(&#x27;#downloadBtn&#x27;);
+  var savingsInfo = $(&#x27;#savingsInfo&#x27;);
+  var originalImage = null;
+  var processedBlob = null;
+  var originalFileSize = 0;
+  var originalWidth = 0;
+  var originalHeight = 0;
+  var processingTimer = null;
+  function handleFile(f){
+    if(!f||!f.type.startsWith(&#x27;image/&#x27;)) return;
+    originalFileSize = f.size;
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var img = new Image();
+      img.onload = function(){
+        originalImage = img;
+        originalWidth = img.naturalWidth;
+        originalHeight = img.naturalHeight;
+        uploadPlaceholder.style.display = &#x27;none&#x27;;
+        uploadFileInfo.style.display = &#x27;flex&#x27;;
+        fileName.textContent = f.name;
+        fileDims.textContent = img.naturalWidth+&#x27; x &#x27;+img.naturalHeight;
+        uploadZone.classList.add(&#x27;has-image&#x27;);
+        previewGrid.style.display = &#x27;&#x27;;
+        controlsArea.style.display = &#x27;&#x27;;
+        showOriginalPreview(img);
+        resizeWidth.value = img.naturalWidth;
+        resizeHeight.value = img.naturalHeight;
+        resizeWidthVal.textContent = img.naturalWidth;
+        resizeHeightVal.textContent = img.naturalHeight;
+        scheduleProcess();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(f);
+  }
+  function showOriginalPreview(img){
+    origPreviewBody.innerHTML = &#x27;&#x27;;
+    var clone = img.cloneNode();
+    clone.style.cssText = &#x27;max-width:100%;max-height:360px;object-fit:contain;display:block&#x27;;
+    origPreviewBody.appendChild(clone);
+    origSize.textContent = formatSize(originalFileSize);
+  }
+  uploadZone.addEventListener(&#x27;click&#x27;,function(){fileInput.click()});
+  uploadZone.addEventListener(&#x27;dragover&#x27;,function(e){e.preventDefault();uploadZone.classList.add(&#x27;dragover&#x27;)});
+  uploadZone.addEventListener(&#x27;dragleave&#x27;,function(){uploadZone.classList.remove(&#x27;dragover&#x27;)});
+  uploadZone.addEventListener(&#x27;drop&#x27;,function(e){e.preventDefault();uploadZone.classList.remove(&#x27;dragover&#x27;);if(e.dataTransfer.files.length)handleFile(e.dataTransfer.files[0])});
+  fileInput.addEventListener(&#x27;change&#x27;,function(){if(fileInput.files.length)handleFile(fileInput.files[0])});
+  changeFileBtn.addEventListener(&#x27;click&#x27;,function(e){e.stopPropagation();fileInput.click()});
+  qualityRange.addEventListener(&#x27;input&#x27;,function(){qualityVal.textContent = qualityRange.value+&#x27;%&#x27;;scheduleProcess()});
+  formatSelect.addEventListener(&#x27;change&#x27;,scheduleProcess);
+  watermarkToggle.addEventListener(&#x27;change&#x27;,function(){watermarkSection.classList.toggle(&#x27;visible&#x27;,watermarkToggle.checked);scheduleProcess()});
+  watermarkText.addEventListener(&#x27;input&#x27;,scheduleProcess);
+  watermarkPos.addEventListener(&#x27;change&#x27;,scheduleProcess);
+  watermarkSize.addEventListener(&#x27;input&#x27;,function(){watermarkSizeVal.textContent=watermarkSize.value+&#x27;px&#x27;;scheduleProcess()});
+  watermarkOpacity.addEventListener(&#x27;input&#x27;,function(){watermarkOpacityVal.textContent=watermarkOpacity.value+&#x27;%&#x27;;scheduleProcess()});
+  watermarkColor.addEventListener(&#x27;input&#x27;,scheduleProcess);
+  watermarkPadding.addEventListener(&#x27;input&#x27;,function(){watermarkPaddingVal.textContent=watermarkPadding.value+&#x27;px&#x27;;scheduleProcess()});
+  resizeToggle.addEventListener(&#x27;change&#x27;,function(){resizeSection.classList.toggle(&#x27;visible&#x27;,resizeToggle.checked);scheduleProcess()});
+  resizeWidth.addEventListener(&#x27;input&#x27;,function(){
+    resizeWidthVal.textContent = resizeWidth.value||&#x27;—&#x27;;
+    if(resizeKeepRatio.checked&amp;&amp;originalWidth){var r=originalHeight/originalWidth;var w=parseInt(resizeWidth.value);if(w){resizeHeight.value=Math.round(w*r);resizeHeightVal.textContent=resizeHeight.value}}
+    scheduleProcess()
+  });
+  resizeHeight.addEventListener(&#x27;input&#x27;,function(){
+    resizeHeightVal.textContent = resizeHeight.value||&#x27;—&#x27;;
+    if(resizeKeepRatio.checked&amp;&amp;originalHeight){var r=originalWidth/originalHeight;var h=parseInt(resizeHeight.value);if(h){resizeWidth.value=Math.round(h*r);resizeWidthVal.textContent=resizeWidth.value}}
+    scheduleProcess()
+  });
+  resizeKeepRatio.addEventListener(&#x27;change&#x27;,scheduleProcess);
+  function scheduleProcess(){
+    if(!originalImage) return;
+    clearTimeout(processingTimer);
+    processingTimer = setTimeout(processImage,150);
+  }
+  function processImage(){
+    if(!originalImage) return;
+    var quality = parseInt(qualityRange.value)/100;
+    var mimeType = formatSelect.value;
+    var addWatermark = watermarkToggle.checked;
+    var doResize = resizeToggle.checked;
+    var dstW = originalWidth;
+    var dstH = originalHeight;
+    if(doResize){
+      var rw = parseInt(resizeWidth.value);
+      var rh = parseInt(resizeHeight.value);
+      if(rw&gt;0&amp;&amp;rh&gt;0){dstW=rw;dstH=rh}
+      else if(rw&gt;0){dstW=rw;dstH=Math.round(rw*originalHeight/originalWidth)}
+      else if(rh&gt;0){dstH=rh;dstW=Math.round(rh*originalWidth/originalHeight)}
+    }
+    var canvas = document.createElement(&#x27;canvas&#x27;);
+    canvas.width = dstW;
+    canvas.height = dstH;
+    var ctx = canvas.getContext(&#x27;2d&#x27;);
+    ctx.drawImage(originalImage,0,0,dstW,dstH);
+    if(addWatermark){
+      var text = watermarkText.value||&#x27;水印&#x27;;
+      var fontSize = parseInt(watermarkSize.value);
+      var opacity = parseInt(watermarkOpacity.value)/100;
+      var color = watermarkColor.value;
+      var padding = parseInt(watermarkPadding.value);
+      var pos = watermarkPos.value;
+      ctx.save();
+      ctx.globalAlpha = opacity;
+      ctx.font = &#x27;bold &#x27;+fontSize+&#x27;px system-ui,-apple-system,sans-serif&#x27;;
+      ctx.fillStyle = color;
+      var metrics = ctx.measureText(text);
+      var tw = metrics.width;
+      var th = fontSize*1.2;
+      var x,y,align,baseline;
+      if(pos===&#x27;nw&#x27;||pos===&#x27;w&#x27;||pos===&#x27;sw&#x27;){x=padding;align=&#x27;left&#x27;}
+      else if(pos===&#x27;ne&#x27;||pos===&#x27;e&#x27;||pos===&#x27;se&#x27;){x=dstW-padding;align=&#x27;right&#x27;}
+      else{x=dstW/2;align=&#x27;center&#x27;}
+      if(pos===&#x27;nw&#x27;||pos===&#x27;n&#x27;||pos===&#x27;ne&#x27;){y=padding+fontSize;baseline=&#x27;top&#x27;}
+      else if(pos===&#x27;sw&#x27;||pos===&#x27;s&#x27;||pos===&#x27;se&#x27;){y=dstH-padding;baseline=&#x27;bottom&#x27;}
+      else{y=dstH/2+fontSize/3;baseline=&#x27;middle&#x27;}
+      ctx.textAlign = align;
+      ctx.textBaseline = baseline;
+      ctx.fillText(text,x,y);
+      ctx.restore();
+    }
+    canvas.toBlob(function(blob){
+      if(!blob)return;
+      processedBlob = blob;
+      updateProcessedPreview(blob);
+      updateDownloadBtn(blob);
+      var saved = originalFileSize - blob.size;
+      var pct = originalFileSize&gt;0?Math.round((1-blob.size/originalFileSize)*100):0;
+      if(saved&gt;0)savingsInfo.textContent=&#x27;缩小了 &#x27;+formatSize(saved)+&#x27; (&#x27;+pct+&#x27;%)&#x27;;
+      else if(saved&lt;0)savingsInfo.textContent=&#x27;增大了 &#x27;+formatSize(-saved)+&#x27; (&#x27;+(-pct)+&#x27;%)&#x27;;
+      else savingsInfo.textContent=&#x27;大小未变&#x27;;
+    },mimeType,quality);
+  }
+  function updateProcessedPreview(blob){
+    var url = URL.createObjectURL(blob);
+    var img = new Image();
+    img.onload = function(){
+      procPreviewBody.innerHTML = &#x27;&#x27;;
+      img.style.cssText = &#x27;max-width:100%;max-height:360px;object-fit:contain;display:block&#x27;;
+      procPreviewBody.appendChild(img);
+      procSize.textContent = formatSize(blob.size);
+      URL.revokeObjectURL(url);
+    };
+    img.src = url;
+  }
+  function updateDownloadBtn(blob){
+    downloadBtn.disabled = false;
+    var old = downloadBtn._url;
+    if(old)URL.revokeObjectURL(old);
+    var url = URL.createObjectURL(blob);
+    downloadBtn._url = url;
+    downloadBtn.onclick = function(){
+      var a = document.createElement(&#x27;a&#x27;);
+      a.href = url;
+      var m = {&#x27;image/jpeg&#x27;:&#x27;jpg&#x27;,&#x27;image/png&#x27;:&#x27;png&#x27;,&#x27;image/webp&#x27;:&#x27;webp&#x27;,&#x27;image/bmp&#x27;:&#x27;bmp&#x27;};
+      a.download = &#x27;processed.&#x27;+(m[formatSelect.value]||&#x27;png&#x27;);
+      a.click();
+    };
+  }
+  function formatSize(bytes){
+    if(bytes&lt;1024)return bytes+&#x27; B&#x27;;
+    if(bytes&lt;1048576)return (bytes/1024).toFixed(1)+&#x27; KB&#x27;;
+    return (bytes/1048576).toFixed(1)+&#x27; MB&#x27;;
+  }
+})();
+&lt;/script&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;https://unpkg.com/@floating-ui/core@1.7.3/dist/floating-ui.core.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/@floating-ui/dom@1.7.4/dist/floating-ui.dom.umd.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  if (window.FloatingUIDOM == null) {
+    return;
+  }
+  const { autoUpdate, computePosition, flip, offset, shift, size } =
+    window.FloatingUIDOM;
+  const tooltipPlacements = new Set([&quot;top&quot;, &quot;right&quot;, &quot;bottom&quot;, &quot;left&quot;]);
+  const tooltipId = `codex-visualization-tooltip-${
+    window.crypto?.randomUUID?.() ?? Date.now().toString(36)
+  }`;
+  const tooltipGap = 5;
+  const hoverDelay = 700;
+  const skipDelay = 300;
+  let activeTrigger = null;
+  let pendingTrigger = null;
+  let tooltip = null;
+  let openTimeout = null;
+  let autoUpdateCleanup = null;
+  let positionRequest = 0;
+  let skipDelayUntil = 0;
+
+  const getTrigger = (target) =&gt;
+    target?.nodeType === Node.ELEMENT_NODE
+      ? target.closest(&quot;[data-tooltip]&quot;)
+      : null;
+  const containsTarget = (trigger, target) =&gt;
+    target?.nodeType != null &amp;&amp; trigger.contains(target);
+  const getContent = (trigger) =&gt;
+    trigger.getAttribute(&quot;data-tooltip&quot;)?.trim() ?? &quot;&quot;;
+  const getPlacement = (trigger) =&gt; {
+    const placement = trigger.getAttribute(&quot;data-tooltip-placement&quot;);
+    return tooltipPlacements.has(placement) ? placement : &quot;top&quot;;
+  };
+  const getTooltip = () =&gt; {
+    if (tooltip == null) {
+      tooltip = document.createElement(&quot;div&quot;);
+      tooltip.id = tooltipId;
+      tooltip.className = &quot;tooltip&quot;;
+      tooltip.setAttribute(&quot;role&quot;, &quot;tooltip&quot;);
+    }
+    return tooltip;
+  };
+  const setDescribedBy = (trigger, described) =&gt; {
+    const ids = new Set(
+      (trigger.getAttribute(&quot;aria-describedby&quot;) ?? &quot;&quot;)
+        .split(/\s+/)
+        .filter(Boolean),
+    );
+    if (described) {
+      ids.add(tooltipId);
+    } else {
+      ids.delete(tooltipId);
+    }
+    if (ids.size === 0) {
+      trigger.removeAttribute(&quot;aria-describedby&quot;);
+    } else {
+      trigger.setAttribute(&quot;aria-describedby&quot;, [...ids].join(&quot; &quot;));
+    }
+  };
+  const clearOpenTimeout = () =&gt; {
+    if (openTimeout != null) {
+      window.clearTimeout(openTimeout);
+      openTimeout = null;
+    }
+    pendingTrigger = null;
+  };
+  const closeTooltip = (activateSkipDelay = true) =&gt; {
+    clearOpenTimeout();
+    positionRequest += 1;
+    autoUpdateCleanup?.();
+    autoUpdateCleanup = null;
+    if (activeTrigger == null) {
+      return;
+    }
+    setDescribedBy(activeTrigger, false);
+    activeTrigger = null;
+    tooltip?.remove();
+    if (activateSkipDelay) {
+      skipDelayUntil = Date.now() + skipDelay;
+    }
+  };
+  const updatePosition = (trigger, floating) =&gt; {
+    const request = ++positionRequest;
+    void computePosition(trigger, floating, {
+      middleware: [
+        offset(tooltipGap),
+        flip({ padding: tooltipGap }),
+        shift({ padding: tooltipGap }),
+        size({
+          padding: tooltipGap,
+          apply({ availableHeight, availableWidth, elements }) {
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-width&quot;,
+              `${Math.max(0, availableWidth)}px`,
+            );
+            elements.floating.style.setProperty(
+              &quot;--tooltip-available-height&quot;,
+              `${Math.max(0, availableHeight)}px`,
+            );
+          },
+        }),
+      ],
+      placement: getPlacement(trigger),
+      strategy: &quot;fixed&quot;,
+    })
+      .then(({ x, y }) =&gt; {
+        if (activeTrigger !== trigger || request !== positionRequest) {
+          return;
+        }
+        const scale = window.devicePixelRatio || 1;
+        floating.style.transform = `translate(${Math.round(x * scale) / scale}px, ${Math.round(y * scale) / scale}px)`;
+        floating.style.visibility = &quot;visible&quot;;
+      })
+      .catch(() =&gt; {
+        if (activeTrigger === trigger &amp;&amp; request === positionRequest) {
+          closeTooltip(false);
+        }
+      });
+  };
+  const openTooltip = (trigger) =&gt; {
+    const content = getContent(trigger);
+    if (!trigger.isConnected || content.length === 0) {
+      return;
+    }
+    clearOpenTimeout();
+    if (activeTrigger === trigger) {
+      return;
+    }
+    closeTooltip();
+    const floating = getTooltip();
+    floating.textContent = content;
+    floating.style.visibility = &quot;hidden&quot;;
+    floating.style.transform = &quot;translate(0, 0)&quot;;
+    document.body.appendChild(floating);
+    activeTrigger = trigger;
+    setDescribedBy(trigger, true);
+    autoUpdateCleanup = autoUpdate(trigger, floating, () =&gt; {
+      updatePosition(trigger, floating);
+    });
+  };
+  const requestOpen = (trigger, immediate = false) =&gt; {
+    if (
+      getContent(trigger).length === 0 ||
+      activeTrigger === trigger ||
+      pendingTrigger === trigger
+    ) {
+      return;
+    }
+    clearOpenTimeout();
+    pendingTrigger = trigger;
+    const delay =
+      immediate || activeTrigger != null || Date.now() &lt; skipDelayUntil
+        ? 0
+        : hoverDelay;
+    if (delay === 0) {
+      openTooltip(trigger);
+      return;
+    }
+    openTimeout = window.setTimeout(() =&gt; {
+      openTimeout = null;
+      pendingTrigger = null;
+      openTooltip(trigger);
+    }, delay);
+  };
+  const handlePointerOpen = (event) =&gt; {
+    if (event.pointerType === &quot;touch&quot;) {
+      return;
+    }
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    requestOpen(trigger);
+  };
+  const handleLeave = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger == null || containsTarget(trigger, event.relatedTarget)) {
+      return;
+    }
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const handleFocusIn = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (trigger?.matches(&quot;:focus-visible&quot;)) {
+      requestOpen(trigger, true);
+    }
+  };
+  const handleKeyDown = (event) =&gt; {
+    if (event.key === &quot;Escape&quot;) {
+      closeTooltip();
+    }
+  };
+  const handleContextMenu = (event) =&gt; {
+    const trigger = getTrigger(event.target);
+    if (activeTrigger === trigger || pendingTrigger === trigger) {
+      closeTooltip();
+    }
+  };
+  const destroy = () =&gt; {
+    closeTooltip(false);
+    document.removeEventListener(&quot;pointerover&quot;, handlePointerOpen);
+    document.removeEventListener(&quot;pointerout&quot;, handleLeave);
+    document.removeEventListener(&quot;focusin&quot;, handleFocusIn);
+    document.removeEventListener(&quot;focusout&quot;, handleLeave);
+    document.removeEventListener(&quot;keydown&quot;, handleKeyDown);
+    document.removeEventListener(&quot;contextmenu&quot;, handleContextMenu);
+    tooltip = null;
+  };
+
+  document.addEventListener(&quot;pointerover&quot;, handlePointerOpen);
+  document.addEventListener(&quot;pointerout&quot;, handleLeave);
+  document.addEventListener(&quot;focusin&quot;, handleFocusIn);
+  document.addEventListener(&quot;focusout&quot;, handleLeave);
+  document.addEventListener(&quot;keydown&quot;, handleKeyDown);
+  document.addEventListener(&quot;contextmenu&quot;, handleContextMenu);
+  window.addEventListener(&quot;pagehide&quot;, destroy, { once: true });
+})();
+&lt;/script&gt;
+&lt;script id=&quot;codex-visualization-lucide&quot; async src=&quot;https://unpkg.com/lucide@1.17.0/dist/umd/lucide.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+(() =&gt; {
+  const initialize = () =&gt; {
+    globalThis.lucide?.createIcons({ attrs: { width: 16, height: 16 } });
+  };
+  if (globalThis.lucide != null) {
+    initialize();
+    return;
+  }
+  document
+    .getElementById(&quot;codex-visualization-lucide&quot;)
+    ?.addEventListener(&quot;load&quot;, initialize, { once: true });
+})();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+"></iframe>
+</body>
+</html>
